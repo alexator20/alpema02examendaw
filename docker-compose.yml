@@ -1,0 +1,47 @@
+version: "2.19.1"
+services:
+    database:
+        image: mysql
+        ports:
+            - 3306:3306
+        #Lanzamos comando para autenticación con contraseña desde mysql
+        command: --default-authentication-plugin=mysql_native_password
+        #Variables
+        environment:
+            MYSQL_DATABASE: alpema02
+            MYSQL_PASSWORD: root
+            MYSQL_ROOT_PASSWORD: root
+        volumes:
+            #sincronización bbdd
+            - ./db:/docker-entrypoint-initdb.d
+        networks:
+            - default
+    web:
+        build:
+            context: .
+            dockerfile: dockerfile-apache
+        ports:
+            - 80:80
+        volumes:
+            - ./public:/var/www/html
+        links:
+            - database
+        #red de conexión de los contenedores
+        networks:
+            - default
+
+    adminphp:
+        build:
+            context: .
+            dockerfile: Dockerfile-php
+        ports:
+            - 8000:80
+        environment:
+            MYSQL_USER: alejandro
+            MYSQL_PASSWORD: root
+            MYSQL_ROOT_PASSWORD: root
+        networks:
+            - default
+
+networks:
+    default:
