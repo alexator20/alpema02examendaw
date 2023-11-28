@@ -1,7 +1,7 @@
 version: "2.19.1"
 services:
     database:
-        image: mysql
+        build: ./mysql
         ports:
             - 3306:3306
         #Lanzamos comando para autenticación con contraseña desde mysql
@@ -18,8 +18,7 @@ services:
             - default
     web:
         build:
-            context: .
-            dockerfile: dockerfile-apache
+            context: ./apache
         ports:
             - 80:80
         volumes:
@@ -32,12 +31,11 @@ services:
 
     adminphp:
         build:
-            context: .
-            dockerfile: Dockerfile-php
+            context: ./php
         ports:
             - 8000:80
         environment:
-            MYSQL_USER: alejandro
+            MYSQL_USER: root
             MYSQL_PASSWORD: root
             MYSQL_ROOT_PASSWORD: root
         networks:

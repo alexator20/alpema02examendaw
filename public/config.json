@@ -1,0 +1,8 @@
+{
+    "nombre_base_datos": "alpema02",
+    "user": "root",
+    "pass": "root",
+    "host": "192.168.96.2",
+    "port": 3306,
+    "tipo_base_datos":"mysql"
+}
